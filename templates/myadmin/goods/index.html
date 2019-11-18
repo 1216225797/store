@@ -1,0 +1,73 @@
+{% extends "myadmin/base.html" %}
+
+{% block mainbody %}                
+    <h3>
+        商品信息管理
+    </h3>
+    <legend>浏览商品信息</legend>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>id号</th>
+                <th>商品名称</th>
+                <th>商品类别</th>
+                <th>图片</th>
+                <th>单价</th>
+                <th>点击量</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vo in goods_list %}
+            <tr>
+                <td>{{ vo.id }}</td>
+                <td>{{ vo.name }}</td>
+                <td>{{ vo.type_name }}</td>
+                <td><img src="/static/goods/{{ vo.picture }}" width="60"/></td>
+                <td>{{ vo.price }}</td>
+                <td></td>
+                <td>
+                    {% if vo.state == 0 %}
+                        在售
+                    {% elif vo.state == 1 %}
+                        下架
+                    {% else %}
+                    <script>
+                        console.log(vo.state)
+                    </script>
+                        删除
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'myadmin_goods_del' vo.id %}" class="view-link">删除</a>
+                    <a href="{% url 'myadmin_goods_edit' vo.id %}" class="view-link">编辑</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>                
+    <nav  aria-label="Page navigation">
+        <div class="pagination">
+            <ul>
+                {% if goods.has_previous %}
+                    <li><a href="/myadmin/goods-index{{goods_list.previous_page_number}}">&laquo;</a></li>
+                {% endif %}
+
+            {%for p in p_num%}
+
+                {%if p == goods_list.number %}
+                    <li class="active"><a href="/myadmin/goods-index{{p}}">{{p}}</a>
+                {%else%}
+                    <li><a href="/myadmin/goods-index{{p}}">{{p}}</a></li>
+                {%endif%}
+
+            {%endfor%}
+
+                {% if goods_list.has_next %}
+                    <li><a href="/myadmin/goods-index{{goods_list.next_page_number}}">&raquo;</a></li>
+                {% endif %}
+        </ul>
+        </div>
+    </nav>
+{% endblock %}

@@ -1,0 +1,120 @@
+body{
+	background-color:#f7f7f7;
+}
+a,a:hover{
+	text-decoration: none;
+}
+
+.navbar{
+	background-color:#fff;
+	color:;
+	border:0;
+}
+.table{
+	background-color:#fff;
+	margin-left:30px;
+}
+.table .mei-select{
+	width: 200px;
+	
+
+	text-align: left;
+	padding-left: 5px;
+}
+.table .mei-name{
+	width: 270px;
+	
+	text-align: left;
+}
+.mei-price{
+	width: 150px;
+	/*text-align: center;*/
+}
+.mei-number{
+	width: 200px;
+	/*text-align: center;*/
+}
+.mei-total{
+	width: 160px;
+	/*text-align: center;*/
+}
+.table .mei-ctrl{
+	width: 110px;
+	/*text-align: right;*/
+	padding-right: 40px;
+}
+.price{
+	margin-top:50px;
+}
+.price p{
+	color:#666;
+}
+.quanw{
+	color:#999;
+}
+.jiage{
+	font-size: 16px;
+	color: #666;
+	font-weight: bolder;
+}
+.xiaoji,.xiaoji2,.xiaoji3{
+	font-size: 16px;
+	font-weight: bolder;
+	color: #e02b41;
+}
+.xiaoj{
+	font-size: 16px;
+	font-weight: bolder;
+	color: #e02b41;
+}
+.kuang{
+	margin-top:500px;
+
+}
+
+/*----合计----*/
+.heji{
+	
+	height:50px;
+	background-color:#fff;
+	padding-left:30px;
+}
+.hejia{
+	font-size: 20px;
+	font-weight: bolder;
+	color: #e02b41;
+	margin-right: 30px;
+	
+}
+.renmb{
+	font-size: 20px;
+	font-weight: bolder;
+	color: #e02b41;
+}
+
+.heyun{
+	float: right;
+}
+
+/*底部*/
+ul,li,div,body{
+	margin: 0;
+	padding: 0;
+	list-style:none;
+}
+.dibu div a{
+	color:#8C8C8C;
+	height: 130px;
+}
+.clearfix li a{
+	float:left;
+	color:#8C8C8C;
+	padding-left: 0px;
+}
+.dibu{
+	margin-top:50px;
+
+}
+.d1{
+	margin-top:20px;
+}

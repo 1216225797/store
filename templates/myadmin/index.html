@@ -1,0 +1,33 @@
+{% extends "myadmin/base.html" %}
+{% block mainbody %}
+	<h2>
+		商城网站后台管理首页
+	</h2>
+	<div class="hero-unit">
+		<h3>
+			欢迎进入后台页面
+		</h3>
+		<p>
+			选择内容进行你的管理
+		</p>
+		<p>
+			<a href="help.htm" class="btn btn-primary btn-large">开始操作</a> <a href="{% url 'myadmin_logout' %}" class="btn btn-large">退出</a>
+		</p>
+	</div>
+	<div class="well summary">
+		<ul>
+			<li>
+				<a href="#"><span class="count">3</span> 项目</a>
+			</li>
+			<li>
+				<a href="#"><span class="count">27</span> 内容</a>
+			</li>
+			<li>
+				<a href="#"><span class="count">7</span> 信息</a>
+			</li>
+			<li class="last">
+				<a href="#"><span class="count">5</span> 文章</a>
+			</li>
+		</ul>
+	</div>
+{% endblock %}

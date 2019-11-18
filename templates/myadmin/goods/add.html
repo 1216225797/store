@@ -1,0 +1,138 @@
+{% extends "myadmin/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block "mylink" %}
+    <script src="{% static 'myadmin/js/jquery.min.js' %}"></script>
+{% endblock %}
+
+{% block mainbody %}                
+    <h3>
+        商品信息管理
+    </h3>
+    <form id="edit-profile" action="{% url 'myadmin_goods_doadd' %}" class="form-horizontal" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset>
+            <legend>添加商品信息</legend>
+            <div class="control-group">
+                <label class="control-label" for="input01">商品类别：</label>
+                <div class="controls">
+                    <select id="type_1" style="width:100px" name="select_1">
+                        <option value="">--请选择--</option>
+                        {% for vo in typelist %}
+                            <option 
+                                {% if vo.pid != 0 %}
+                                    hidden
+                                {% else %} value="{{ vo.id }}">
+                                {{ vo.name }}
+                                {% endif %}
+                                 </option>
+                        {% endfor %}
+                    </select>
+                    <select id="type_2" style="width:100px" name="select_2">
+                        <option value="">--请选择--</option>
+                    </select>
+                    <select id="type_3" style="width:100px" name="select_3">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+            </div>
+
+             <script>
+                 $("#type_1").change(
+                 function(){
+                     // 每次操作前先清空菜单二的数据
+                     $("#type_2").find("option").not(":first").remove();
+                     var tv = $('#type_1').val();
+                     console.log(tv)
+                     var token = $('input[name=csrfmiddlewaretoken]').val();
+                     $.ajax({
+                         type: 'post',
+                         url: 'type_select',
+                         data: {"tv": tv,csrfmiddlewaretoken: token},
+                         dataType: 'json',
+                         success: function (data) {
+                             var type_name_list = data.type_name;
+                             var type_id_list = data.type_id;
+                             for(var i = 0; i < type_name_list.length; i++){
+                                 t_name = type_name_list[i];
+                                 t_id = type_id_list[i];
+                                 opt = "<option value="+t_id+">"+t_name+"</option>";
+                                 $("#type_2").append(opt);
+                             };
+                         },
+                         error: function () {
+                             alert("菜单获取失败！")
+
+                         }
+                     })
+                 })
+                 $("#type_2").change(
+                     function () {
+                         var token = $("input[name=csrfmiddlewaretoken]").val();
+                         tv = $("#type_2").val();
+                         console.log(tv)
+                         $.ajax({
+                             url: 'type_select',
+                             type: 'post',
+                             data: {"tv":tv, "csrfmiddlewaretoken": token},
+                             dataType: 'json',
+                             success: function (data) {
+                                var type_name_list = data.type_name;
+                                 var type_id_list = data.type_id;
+                                 for (var j=0; j < type_name_list.length; j++){
+                                     opt = "<option value='" + type_id_list[j] + "'>" + type_name_list[j] + "</option>"
+                                     $("#type_3").append(opt)
+                                 };
+                             },
+                             error: function () {
+                                 alert("菜单获取失败！")
+                             }
+                         })
+                     }
+                 )
+            </script>
+
+            <div class="control-group">
+                <label class="control-label" for="input01">商品名称：</label>
+                <div class="controls">
+                    <input type="text" name="goods" class="input-xlarge" id="input01"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input01">生产厂家：</label>
+                <div class="controls">
+                    <input type="text" name="company" class="input-xlarge" id="input01"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input01">单价：</label>
+                <div class="controls">
+                    <input type="text" name="price" class="input-xlarge" id="input01"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input01">库存量：</label>
+                <div class="controls">
+                    <input type="text" name="store" class="input-xlarge" id="input01"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input01">商品图片：</label>
+                <div class="controls">
+                    <input type="file" name="pic" class="input-xlarge" id="input01"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input01">商品简介：</label>
+                <div class="controls">
+                    <textarea cols="40" style="width:450px" rows="10" name="descr">
+                    </textarea>
+                </div>
+            </div>                        
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">添加</button> <button type="reset" class="btn">重置</button>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}

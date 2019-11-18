@@ -1,0 +1,89 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html lang="cn">
+    <head>
+        <meta charset="utf-8">
+        <title>网站后台管理</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'myadmin/css/bootstrap.min.css' %}" >
+        <link rel="stylesheet" href="{% static 'myadmin/css/bootstrap-responsive.min.css' %}" >
+        <link rel="stylesheet" href="{% static 'myadmin/css/site.css' %}" >
+        {% block "mylink" %}
+        {% endblock %}
+        <!--[if lt IE 9]><script src="{% static 'myadmin/js/html5.js' %}"></script><![endif]-->
+    </head>
+    <body>
+        <div class="container">
+            <!-- 页头开始 -->
+
+
+            <div class="row">
+                <div class="span3">
+                    <!-- 侧边导航开始 -->
+                    <div class="well" style="padding: 8px 0;">
+                        <ul class="nav nav-list">
+                            <li class="nav-header">
+                                导航栏
+                            </li>
+                            <li {% if request.path == '/myadmin/' %} class="active" {% endif %}>
+                                <a href="{% url 'myadmin_index' %}"><i class="icon-home"></i> 首页</a>
+                            </li>
+
+                            <li class="nav-header">
+                                会员管理
+                            </li>  
+                            <li {% if request.path == '/myadmin/users' %} class="active" {% endif %}>
+                                <a href="{% url 'userlist' %}"><i class="icon-folder-open"></i> 浏览会员</a>
+                            </li>
+                            <li {% if request.path == '/myadmin/usersadd' %} class="active" {% endif %}>
+                            <a href="{% url 'useradd' %}"><i class="icon-check"></i> 添加会员</a>
+                            </li>
+
+                            <li class="nav-header">
+                                商品类别管理
+                            </li>
+                            <li>
+                                <a href="{% url 'myadmin_typeindex' %}"><span class="icon-th-list"></span> 浏览类别</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'myadmin_typeadd' %}"><span class="icon-tag"></span> 添加类别</a>
+                            </li>
+                            <li class="nav-header">
+                                商品信息管理
+                            </li>
+                            <li>
+                                <a href="{% url 'myadmin_goods_index' %}"><img src="" alt="" class ="icon-book"> 浏览商品</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'myadmin_goods_add' %}"><img src="" alt="" class="icon-plus"> 添加商品</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'myadmin_index' %}"><i class="icon-info-sign"></i> 帮助</a>
+                            </li>
+                            <li class="nav-header">
+                                订单管理
+                            </li>
+                            <li>
+                                <a href="{%  url 'myadmin_order_index' %}"><i class="icon-list-alt"></i> 浏览订单</a>
+                            </li>
+
+                        </ul>
+                    </div><!-- 侧边导航结束 -->
+                </div>
+                <div style="float: right; font-size: 15px">
+                    <b>当前用户：{{request.session.adminuser.name}}</b>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="{% url 'myadmin_logout' %}">【退出】</a>
+                </div>
+                <div class="span9">
+                    <!-- 主体开始 -->
+                    {% block mainbody %}
+                    {% endblock %}
+                    <!-- 主体结束 -->
+                </div>
+            </div>
+        </div>
+        <script src="{% static 'myadmin/js/jquery.min.js' %}"></script>
+        <script src="{% static 'myadmin/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'myadmin/js/site.js' %}"></script>
+    </body>
+</html>

@@ -1,0 +1,70 @@
+{% extends "myadmin/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block "mylink" %}
+    <link rel="stylesheet" href="{% static 'myadmin/css/custom.css' %}">
+{% endblock %}
+
+{% block mainbody %}
+
+    <h3>
+        会员信息管理
+    </h3>
+    <legend>浏览会员信息</legend>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>账号</th>
+                <th>真实姓名</th>
+                <th>性别</th>
+                <th>电话</th>
+                <th>注册时间</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>   
+            {% for vo in userlist %}
+            <tr>
+                <td>{{ vo.username }}</td>
+                <td>{{ vo.name }}</td>
+                <td>{% if vo.gender == 0 %} 男 {% else %} 女 {% endif %}</td>
+                <td>{{ vo.mobile }}</td>
+                <td>{{ vo.create_date }}</td>
+                <td>{% if vo.status == 0 %} 启用 {% else %} 删除 {% endif %}</td>
+                <td>
+                    {% if vo.status == 0 %}
+                        <a href="{% url 'userdel' vo.id %}" class="view-link">删除</a>
+                    {% endif %}
+                    <a href="{% url 'useredit' vo.id %}" class="view-link">编辑</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>   
+    <br><br>   
+    <nav  aria-label="Page navigation">
+        <div class="pagination">
+            <!-- 判断是否有上一页 -->
+            {% if userlist.has_previous %}
+                <a href="/myadmin/userlist{{userlist.previous_page_number}}">上一页</a>
+            {% endif %}
+
+            {% for num in p_num %}
+                {% if num == userlist.number %}
+                    {{num}}
+                {% else %}
+                    <a href="/myadmin/userlist{{num}}">{{num}}</a>
+                {% endif %}
+            {% endfor %}
+
+            <!-- 判断是否有下一页 -->
+            {% if  userlist.has_next %}
+                <a href="/myadmin/userlist{{userlist.next_page_number}}">下一页</a>
+            {% endif %}
+        </div>
+    </nav>
+
+{% endblock %}

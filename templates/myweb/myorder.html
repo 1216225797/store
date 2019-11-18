@@ -1,0 +1,158 @@
+{% extends 'myweb/base.html' %}
+{% load static from staticfiles %}
+
+{% block mylink %}
+<link rel="stylesheet" type="text/css" href="{% static 'myweb/css/member.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'myweb/css/member-app.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'myweb/css/cart.css' %}">
+{% endblock %}
+
+{% block mainbody %}
+    <div class="container" style="margin-top:100px;">
+      <!-- 面包屑导航 -->
+      <div class="crumbs ">
+        <ol class="breadcrumb">
+          <li class="hidden-xs hidden-sm"><a href="index.html">首页</a></li>
+          <li class="active"><a href="#">我的商城</a></li>
+        </ol>
+      </div><!-- 面包屑导航 E-->
+      
+      <div class="main clearfix">
+        <!-- 左侧导航 -->
+        <div class="left-nav f-fl hidden-xs hidden-sm">
+          <div class="nav-main">
+            <a href="javascript:;" class="type-title"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>订单中心</a>
+            <a href="order.html" class="ml" >我的订单</a>
+            <a href="#" class="ml " >我的回购单</a>
+            <a href="#" class="ml " >我的意外保</a>
+            <a href="javascript:;" class="type-title"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>个人中心</a>
+            <a href="#" class="ml " >地址管理</a>
+            <a href="#" class="ml " >我的收藏</a>
+            <a href="#" class="ml " >消息提醒</a>
+            <a href="#" class="ml ">建议反馈</a>
+          </div>
+        </div><!-- 左侧导航 E-->
+        <!-- 右侧内容展示 -->
+        <div style="margin-top:-55px;">
+      <center>
+          <h3 >
+            订单详情信息
+        </h3> <hr>
+        </center>
+      
+     <form id="edit-profile" action="{% url  'myorder_affirm'  %}" class="form-horizontal col-md-6 col-md-offset-1" method="post">
+        {% csrf_token %}
+        <fieldset>
+            
+            <div class="form-group">
+                 <label for="inputEmail3" class="col-sm-2 control-label" va>收件人&nbsp;&nbsp;:</label>
+                 <div class="col-sm-10">
+                   <input type="text" class="form-control"  name="name" id="inputEmail3"   value="{{ request.session.user.name }}">
+                 </div>
+            </div>
+      
+            <div class="form-group">
+                 <label for="inputEmail3" class="col-sm-2 control-label">地址</label>
+                 <div class="col-sm-10">
+                   <input type="text" class="form-control" id="inputEmail3" name="address" value="{{ request.session.user.address }}">
+                 </div>
+            </div>
+            
+            <div class="form-group">
+                 <label for="inputEmail3" class="col-sm-2 control-label">电话</label>
+                 <div class="col-sm-10">
+                   <input type="text" class="form-control" id="inputEmail3" name="phone" value="{{ request.session.user.phone }}">
+                 </div>
+            </div>
+             <div class="form-group">
+                 <label for="inputEmail3" class="col-sm-2 control-label">邮编</label>
+                 <div class="col-sm-10">
+                   <input type="text" class="form-control" id="inputEmail3" name="code" value="{{ request.session.user.code }}">
+                 </div>
+            </div>
+
+            <div class="form-group">
+                 <label for="inputEmail3" class="col-sm-2 control-label">总价</label>
+                 <div class="col-sm-10">
+                   <input type="text" class="form-control" id="inputEmail3" name="total" value="{{ request.session.total }}" disabled>
+                 </div>
+            </div>
+
+
+           <div class="form-group">
+               <div class="col-sm-offset-2 col-sm-10">
+                 <button type="submit" class="btn btn-primary">支付</button>
+                 <a href="{% url 'myweb_shopcart' %}" class="btn btn-primary">修改</a>
+               </div>
+            </div>
+        </fieldset>
+    </form>
+    </div>
+      </div>
+    </div> 
+
+    <div class="mainbody cart" style="">
+    <div class="container">
+            <table class="cart-header">
+        <tbody>
+          <tr>
+            <td class="cart-col-select col-md-3 col-xs-3 col-sm-3">
+              <div class="cart-select-all JSelectAll">
+
+                <span class="cart-select-title"></span>
+              </div>
+            </td>
+            <td class="cart-col-name col-md-3 hidden-xs hidden-sm">商品</td>
+            <td class="cart-col-price col-md-2 hidden-xs hidden-sm">单价(元)</td>
+            <td class="cart-col-number col-md-2 hidden-xs hidden-sm">数量</td>
+            <td class="cart-col-total col-md-1 hidden-xs hidden-sm">小计(元)</td>
+
+          </tr>
+        </tbody>
+      </table><!-- 购物车详情头 E-->
+        </div>
+        <div class="cart-merchant-list">
+        <div class="cart-merchant">
+        <table class="cart-merchant-body">
+        <tbody>
+        {% for shop in request.session.shoplist.values %}
+            <tr class="cart-product" id="pro5">
+                <td class="cart-col-select col-md-3 col-xs-4 col-sm-4">
+
+                    <a href="detail.html" class="cart-product-link" target="_blank">
+                        <img src="/static/goods/{{ shop.picture }}" class="cart-product-img" alt="{{ shop.name }}">
+                    </a>
+                </td>
+                <td class="cart-col-name col-md-3 col-xs-8 col-sm-8">
+                    <a href="" class="cart-product-link" target="_blank">
+                      <p>{{ shop.name }}</p>
+                      <!-- <span class="cart-product-desc">{{ shop.descr }}</span> -->
+                    </a>
+                </td>
+                <td class="cart-col-price col-md-2 hidden-xs hidden-sm">
+                    <p>
+                        <span class="cart-product-price">{{ shop.price }}</span>
+                    </p>
+                </td>
+                <td class="cart-col-price col-md-2 hidden-xs hidden-sm">
+                    <p>
+                        <span>{{ shop.num }}</span>
+                    </p>
+                </td>
+                <td class="cart-col-total col-md-1 hidden-xs hidden-sm">
+                    <span class="cart-product-price total">{% widthratio  shop.price 1 shop.num %}</span>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!-- 返回顶部 E-->
+  <script type="text/javascript">//回顶部
+          backTop();
+          //全选
+  </script>
+{% endblock %}

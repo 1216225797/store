@@ -1,0 +1,62 @@
+{% extends "myadmin/base.html" %}
+
+{% block mainbody %}                
+    <h3>
+        商品类别信息管理
+    </h3>
+    <legend>浏览商品信息</legend>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID号</th>
+                <th>类别名称</th>
+                <th>父类别id</th>
+                <th>路径</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vo in types %}
+            {% if vo.status == 0 %}
+            <tr>
+                <td>{{ vo.id }}</td>
+                <td>{{ vo.pname}}|-- {{ vo.name }}</td>
+                <td>{{ vo.pid }}</td>
+                <td>{{ vo.path }}</td>
+                <td width="30%">
+                    <a href="{% url 'myadmin_typeadd' vo.id %}" class="view-link">添加子类别</a>
+                    <a href="{% url 'myadmin_dotypedel' vo.id %}" class="view-link">删除</a>
+                    <a href="{% url 'myadmin_typeedit' vo.id %}" class="view-link">编辑</a>
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>                
+    <div class="pagination">
+        <ul>
+
+            <li class="disabled">
+                {% if types.has_previous %}
+                    <a href="/myadmin/typeindex{{types.previous_page_numer}}">&laquo;</a>
+                {% endif %}
+            </li>
+
+            {% for p in p_num %}
+
+                {% if p == types.number %}
+
+                    <li class="active"><a href="#">{{p}}</a></li>
+                {% else %}
+                    <li><a href="/myadmin/typeindex{{p}}">{{p}}</a></li>
+                {% endif %}
+
+            {% endfor %}
+            <li>
+                {% if types.has_next %}
+                <a href="/myadmin/typeindex{{types.next_page_number}}">&raquo;</a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+{% endblock %}
